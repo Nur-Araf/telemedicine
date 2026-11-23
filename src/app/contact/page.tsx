@@ -1,7 +1,12 @@
+import ContactContent from "@/src/components/ContactContent";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact Us | Teliclinicbd",
+  description:
+    "Send a message to Teliclinicbd. Ask about a campaign near you, offer to help as a doctor, or find out how to contribute.",
+};
+
 export default function ContactPage() {
-  return (
-    <main className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
-      <h1 className="text-3xl font-bold text-primary">Contact Us</h1>
-    </main>
-  );
+  return <ContactContent />;
 }
