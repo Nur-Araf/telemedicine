@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
   ArrowRight,
   Heart,
@@ -164,14 +164,21 @@ function DatePicker({
 }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const [todayISO, setTodayISO] = useState("");
 
-  const todayISO = useMemo(() => toISO(new Date()), []);
-  const today = useMemo(() => fromISO(todayISO), [todayISO]);
+  const [view, setView] = useState<Date>(() => new Date(2000, 0, 1));
 
-  // First day of the month currently shown in the calendar.
-  const [view, setView] = useState<Date>(
-    () => new Date(today.getFullYear(), today.getMonth(), 1),
-  );
+  // Set today's date only in the browser after mounting.
+  useEffect(() => {
+    const currentDate = new Date();
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTodayISO(toISO(currentDate));
+    setView(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1));
+  }, []);
+
+  // Safe fallback during prerendering and the initial hydration render.
+  const today = todayISO ? fromISO(todayISO) : new Date(2000, 0, 1);
 
   // Open on the selected month (or the current month).
   const toggle = () => {
@@ -256,7 +263,7 @@ function DatePicker({
         </span>
       </button>
 
-      {open && (
+      {open && todayISO && (
         <div
           role="dialog"
           aria-label={`Choose ${label.toLowerCase()}`}

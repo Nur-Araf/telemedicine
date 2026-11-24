@@ -40,7 +40,7 @@ const linkClass =
   "text-sm text-muted outline-none transition-colors duration-300 hover:text-primary focus-visible:text-primary focus-visible:underline";
 
 export default function Footer() {
-  const year = new Date().getFullYear();
+  const year = 2026;
 
   return (
     <footer className="border-t border-slate-200 bg-surface">
